@@ -8,11 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
         :root {
-            --primary-color: #1a2f4e;
-            --secondary-color: #3a6ea5;
+            --primary-color: #2f415c;
+            --secondary-color: #529eee;
             --background-color: #0c1829;
             --text-color: #e6f1ff;
-            --border-color: #2d4a6d;
+            --border-color: #2e4a6c;
             --success-color: #4caf50;
             --error-color: #f44336;
             --accent-color: #64ffda;
@@ -28,21 +28,20 @@
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background-color: var(--background-color);
+            background-image: url(b.jpg);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background-image: 
-                url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fwebsite%2520background%2F&psig=AOvVaw0lJf2oiNYycTX71yj9yIdX&ust=1729920285411000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCzkLnlqIkDFQAAAAAdAAAAABAR");
+
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
         .container {
-            background-color: rgba(26, 47, 78, 0.9);
+            background-color: rgba(73, 117, 182, 0.9);
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -54,14 +53,14 @@
         }
 
         .container::before {
-            content: "";
+            
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, transparent 80%);
-            animation: glowingEffect 10s linear infinite;
+           
         }
 
         @keyframes glowingEffect {
@@ -134,17 +133,17 @@
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
 
-        #view-results {
+        #res a{
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: var(--accent-color);
+            color: yellow;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        #view-results:hover {
+        #res a:hover {
             color: #45e0bc;
             text-shadow: 0 0 8px rgba(100, 255, 218, 0.5);
         }
@@ -169,7 +168,7 @@
         }
 
         .info-section {
-            background-color: rgba(26, 47, 78, 0.9);
+            background-color: rgba(0, 102, 255, 0.9);
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -200,7 +199,7 @@
 
         .info-item {
             text-align: center;
-            background-color: rgba(58, 110, 165, 0.1);
+            background-color: rgba(0, 0, 0, 0.177);
             padding: 20px;
             border-radius: 8px;
             transition: all 0.3s ease;
@@ -222,7 +221,7 @@
             align-items: center;
             margin: 0 auto 20px;
             font-size: 28px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(60, 15, 15, 0.463);
         }
 
         .info-title {
@@ -242,11 +241,15 @@
             margin-top: 40px;
             text-align: center;
             padding: 20px;
-            background-color: rgba(58, 110, 165, 0.1);
+            background-color: rgba(0, 0, 0, 0.177);
             border-radius: 8px;
             position: relative;
+            transition: all 0.3s ease;
         }
-
+        .info-footer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
         @media (max-width: 600px) {
             .container, .info-section {
                 padding: 30px;
@@ -260,6 +263,9 @@
                 gap: 20px;
             }
         }
+        #candidate-select{
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -268,24 +274,27 @@
         <div class="info-grid">
             <div class="info-item">
                 <div class="info-icon">ℹ️</div>
-                <h3 class="info-title">Transparency</h3>
-                <p class="info-description">Every vote is recorded on a public ledger, ensuring complete transparency in the voting process.</p>
+                <h3 class="info-title">Voter ID</h3>
+                <p class="info-description">You
+                    make it shorter
+                    Copilot
+                    Each individual must record their unique voter ID for verification purposes to maintain the system's integrity.</p>
             </div>
             <div class="info-item">
                 <div class="info-icon">🛡️</div>
-                <h3 class="info-title">Security</h3>
-                <p class="info-description">Blockchain technology makes it virtually impossible to tamper with votes once they're cast.</p>
+                <h3 class="info-title">Select Candidate</h3>
+                <p class="info-description">Please select a candidate based on your preference and informed judgment.</p>
             </div>
             <div class="info-item">
                 <div class="info-icon">🔒</div>
-                <h3 class="info-title">Privacy</h3>
+                <h3 class="info-title">Cast Vote</h3>
                 <p class="info-description">While the voting record is public, individual votes remain anonymous, protecting voter privacy.</p>
             </div>
-            <div class="info-item">
+            <!--<div class="info-item">
                 <div class="info-icon">📚</div>
                 <h3 class="info-title">Immutability</h3>
                 <p class="info-description">Once a vote is recorded, it cannot be altered or deleted, ensuring the integrity of the election.</p>
-            </div>
+            </div>-->
         </div>
         <div class="info-footer">
             <h3 style="margin-bottom: 10px;">Why Blockchain Voting Matters</h3>
@@ -313,7 +322,7 @@
             
             <button type="submit">Cast Vote</button>
         </form>
-        <a href="results.html" id="view-results">View Results and Blockchain Info</a>
+        <span id="res"><a href="results.html">View Results and Blockchain Info</a></span>
         <div id="message" class="message" style="display: none;"></div>
     </div>
 
@@ -356,7 +365,7 @@
             }
 
             addVoter(voterId) {
-                this.voters[voterId] = true;
+                this.voters[voterId] = true
                 localStorage.setItem('voters', JSON.stringify(this.voters));
             }
         }
