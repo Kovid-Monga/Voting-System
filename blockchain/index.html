@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Blockchain Voting System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #2f415c;
+            --secondary-color: #529eee;
+            --background-color: #0c1829;
+            --text-color: #dedede;
+            --border-color: #2e4a6c;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --accent-color: #64ffda;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-attachment: fixed;
+            background-color: #000000;
+
+            
+        }
+
+        .container {
+            background-color: rgba(19, 8, 8, 0.619);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 2px 10px 25px rgba(0, 0, 0, 0.944);
+            width: 100%;
+            max-width: 500px;
+            
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            
+            animation: glowingEffect 15s linear infinite;
+        }
+
+        @keyframes glowingEffect {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        #voting-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-color);
+            background-color: rgba(58, 110, 165, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.2);
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover {
+            background-color: #45e0bc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #res a{
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: yellow;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        #res a:hover {
+            color: #45e0bc;
+            text-shadow: 0 0 8px rgba(100, 255, 218, 0.5);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .success {
+            background-color: var(--success-color);
+            color: #ffffff;
+        }
+
+        .error {
+            background-color: var(--error-color);
+            color: #ffffff;
+        }
+/*
+        .info-section {
+            background-color: rgba(20, 44, 80, 0.64);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 2px 10px 25px rgba(0, 0, 0, 0.944);
+            max-width: 800px;
+            margin: 20px auto;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            font-size: 1.5em;
+        }
+
+        .info-section::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, transparent 80%);
+            animation: glowingEffect 15s linear infinite;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            position: relative;
+        }
+
+        .info-item {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.177);
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            box-shadow: 0 4px 6px rgba(60, 15, 15, 0.463);
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            font-size: 1.2em;
+        }
+
+        .info-description {
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .info-footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.177);
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .info-footer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);*/
+        
+        @media (max-width: 600px) {
+            .container, .info-section {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .info-grid {
+                gap: 20px;
+            }
+        }
+        #candidate-select{
+            color: #ffffff;
+            
+        }
+        #candidate-select option{
+            background-color: #120728;
+        }
+        canvas{
+        position: fixed;
+    }
+    </style>
+</head>
+<body>
+    <canvas id="galaxyCanvas"></canvas>
+    <!--<div class="info-section">
+        <h2 style="text-align: center; margin-bottom: 30px;">Blockchain Voting: How It Works</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-icon">ℹ️</div>
+                <h3 class="info-title">Voter ID</h3>
+                <p class="info-description">You
+                    make it shorter
+                    Copilot
+                    Each individual must record their unique voter ID for verification purposes to maintain the system's integrity.</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">🛡️</div>
+                <h3 class="info-title">Select Candidate</h3>
+                <p class="info-description">Please select a candidate based on your preference and informed judgment.</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">🔒</div>
+                <h3 class="info-title">Cast Vote</h3>
+                <p class="info-description">While the voting record is public, individual votes remain anonymous, protecting voter privacy.</p>
+            </div>
+            <!--<div class="info-item">
+                <div class="info-icon">📚</div>
+                <h3 class="info-title">Immutability</h3>
+                <p class="info-description">Once a vote is recorded, it cannot be altered or deleted, ensuring the integrity of the election.</p>
+            </div>
+        </div>
+        <div class="info-footer">
+            <h3 style="margin-bottom: 10px;">Why Blockchain Voting Matters</h3>
+            <p class="info-description">
+                Blockchain voting has the potential to revolutionize electoral systems by increasing trust, 
+                reducing fraud, and making voting more accessible. It combines the benefits of electronic 
+                voting with the security and transparency of blockchain technology.
+            </p>
+        </div>
+    </div>-->
+
+    <div class="container">
+        <h1>Voting System</h1>
+        <form id="voting-form">
+            <label for="voter-id">Voter ID:</label>
+            <input type="text" id="voter-id" required>
+            
+            <label for="candidate-select">Select a candidate:</label>
+            <select id="candidate-select" required>
+                <option value="" disabled selected>Choose a candidate</option>
+                <option value="Candidate A">Candidate A</option>
+                <option value="Candidate B">Candidate B</option>
+                <option value="Candidate C">Candidate C</option>
+            </select>
+            
+            <button type="submit">Cast Vote</button>
+        </form>
+        <span id="res"><a href="results.html">View Results and Blockchain Info</a></span>
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script>
+        class Block {
+            constructor(timestamp, data, previousHash = '') {
+                this.timestamp = timestamp;
+                this.data = data;
+                this.previousHash = previousHash;
+                this.hash = this.calculateHash();
+            }
+
+            calculateHash() {
+                return btoa(JSON.stringify(this));
+            }
+        }
+
+        class Blockchain {
+            constructor() {
+                this.chain = JSON.parse(localStorage.getItem('blockchain')) || [this.createGenesisBlock()];
+                this.voters = JSON.parse(localStorage.getItem('voters')) || {};
+            }
+
+            createGenesisBlock() {
+                return new Block(Date.now(), "Genesis Block", "0");
+            }
+
+            getLatestBlock() {
+                return this.chain[this.chain.length - 1];
+            }
+
+            addBlock(data) {
+                const block = new Block(Date.now(), data, this.getLatestBlock().hash);
+                this.chain.push(block);
+                localStorage.setItem('blockchain', JSON.stringify(this.chain));
+            }
+
+            hasVoted(voterId) {
+                return this.voters.hasOwnProperty(voterId);
+            }
+
+            addVoter(voterId) {
+                this.voters[voterId] = true
+                localStorage.setItem('voters', JSON.stringify(this.voters));
+            }
+        }
+
+        const blockchain = new Blockchain();
+        const votingForm = document.getElementById('voting-form');
+        const voterIdInput = document.getElementById('voter-id');
+        const candidateSelect = document.getElementById('candidate-select');
+        const messageDiv = document.getElementById('message');
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        votingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const voterId = voterIdInput.value.trim();
+            const selectedCandidate = candidateSelect.value;
+
+            if (!voterId) {
+                showMessage('Please enter a valid Voter ID.', 'error');
+                return;
+            }
+
+            if (blockchain.hasVoted(voterId)) {
+                showMessage('This Voter ID has already been used.', 'error');
+                return;
+            }
+
+            if (selectedCandidate) {
+                blockchain.addBlock({ voterId, candidate: selectedCandidate });
+                blockchain.addVoter(voterId);
+                showMessage('Vote cast successfully!', 'success');
+                voterIdInput.value = '';
+                candidateSelect.value = '';
+            } else {
+                showMessage('Please select a candidate.', 'error');
+            }
+        });
+    </script>
+    <script src="milkyWayBackground.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Results and Blockchain Info</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #1a2f4e;
+            --secondary-color: #3a6ea5;
+            --background-color: #0c1829;
+            --text-color: #e6f1ff;
+            --border-color: #2d4a6d;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --accent-color: #64ffda;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url(https://wallpapercave.com/wp/wp8970955.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1, h2 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+        }
+
+        #vote-results, #blockchain-info, #saved-blockchains {
+            background-color: rgba(58, 110, 165, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #results-list, #blockchain-list, #saved-blockchains-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #results-list li, #blockchain-list li, #saved-blockchains-list li {
+            background-color: rgba(26, 47, 78, 0.6);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #results-list li:hover, #blockchain-list li:hover, #saved-blockchains-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .vote-count, .block-info {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        #chain-status {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-color);
+            margin-top: 20px;
+            font-weight: 700;
+            padding: 10px;
+            background-color: rgba(58, 110, 165, 0.1);
+            border-radius: 8px;
+        }
+
+        #back-to-voting {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            padding: 12px 20px;
+            background-color: rgba(58, 110, 165, 0.1);
+            border-radius: 8px;
+        }
+
+        #back-to-voting:hover {
+            background-color: rgba(58, 110, 165, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-color);
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #45e0bc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .button.danger {
+            background-color: var(--error-color);
+            color: #ffffff;
+        }
+
+        .button.danger:hover {
+            background-color: #ff5252;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .success {
+            background-color: var(--success-color);
+            color: #ffffff;
+        }
+
+        .error {
+            background-color: var(--error-color);
+            color: #ffffff;
+        }
+
+        .saved-blockchain-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .saved-blockchain-actions button {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vote Results and Blockchain Info</h1>
+        <div id="vote-results">
+            <h2>Vote Results</h2>
+            <ul id="results-list"></ul>
+        </div>
+        <div id="blockchain-info">
+            <h2>Blockchain Information</h2>
+            <ul id="blockchain-list"></ul>
+        </div>
+        <p id="chain-status"></p>
+        <div class="button-group">
+            <button id="new-blockchain" class="button">Create New Blockchain</button>
+            <button id="save-blockchain" class="button">Save Current Blockchain</button>
+            <button id="clear-blockchain" class="button danger">Clear Blockchain</button>
+        </div>
+        <div id="saved-blockchains">
+            <h2>Saved Blockchains</h2>
+            <ul id="saved-blockchains-list"></ul>
+        </div>
+        <a href="index.html" id="back-to-voting">Back to Voting</a>
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script>
+        class Block {
+            constructor(timestamp, data, previousHash = '') {
+                this.timestamp = timestamp;
+                this.data = data;
+                this.previousHash = previousHash;
+                this.hash = this.calculateHash();
+            }
+
+            calculateHash() {
+                return btoa(JSON.stringify(this));
+            }
+        }
+
+        class Blockchain {
+            constructor() {
+                this.chain = JSON.parse(localStorage.getItem('blockchain')) || [this.createGenesisBlock()];
+            }
+
+            createGenesisBlock() {
+                return new Block(Date.now(), "Genesis Block", "0");
+            }
+
+            getLatestBlock() {
+                return this.chain[this.chain.length - 1];
+            }
+
+            isChainValid() {
+                for (let i = 1; i < this.chain.length; i++) {
+                    const currentBlock = this.chain[i];
+                    const previousBlock = this.chain[i - 1];
+
+                    if (currentBlock.hash !== currentBlock.calculateHash()) {
+                        return false;
+                    }
+
+                    if (currentBlock.previousHash !== previousBlock.hash) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        const blockchain = new Blockchain();
+        const resultsList = document.getElementById('results-list');
+        const blockchainList = document.getElementById('blockchain-list');
+        const chainStatus = document.getElementById('chain-status');
+        const newBlockchainBtn = document.getElementById('new-blockchain');
+        const saveBlockchainBtn = document.getElementById('save-blockchain');
+        const clearBlockchainBtn = document.getElementById('clear-blockchain');
+        const savedBlockchainsList = document.getElementById('saved-blockchains-list');
+        const messageDiv = document.getElementById('message');
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateVoteResults() {
+            const voteResults = {};
+            blockchain.chain.forEach(block => {
+                if (block.data.candidate) {
+                    voteResults[block.data.candidate] = (voteResults[block.data.candidate] || 0) + 1;
+                }
+            });
+
+            resultsList.innerHTML = '';
+            for (const [candidate, votes] of Object.entries(voteResults)) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${candidate}</span>
+                    <span class="vote-count">${votes} vote${votes !== 1 ? 's' : ''}</span>
+                `;
+                resultsList.appendChild(li);
+            }
+        }
+
+        function updateBlockchainInfo() {
+            blockchainList.innerHTML = '';
+            for (let i = 1; i < blockchain.chain.length; i++) {
+                const block = blockchain.chain[i];
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>Block ${i}</span>
+                    <span class="block-info">
+                        Voter ID: ${block.data.voterId ? block.data.voterId.substr(0, 3) + '...' + block.data.voterId.substr(-3) : 'N/A'},
+                        Candidate: ${block.data.candidate || 'Genesis'}
+                    </span>
+                `;
+                blockchainList.appendChild(li);
+            }
+            chainStatus.textContent = `Blockchain Validity: ${blockchain.isChainValid() ? 'Valid' : 'Invalid'}`;
+        }
+
+        function createNewBlockchain() {
+            const savedBlockchains = JSON.parse(localStorage.getItem('savedBlockchains')) || [];
+            savedBlockchains.push(blockchain.chain);
+            localStorage.setItem('savedBlockchains', JSON.stringify(savedBlockchains));
+
+            blockchain.chain = [blockchain.createGenesisBlock()];
+            localStorage.setItem('blockchain', JSON.stringify(blockchain.chain));
+            updateVoteResults();
+            updateBlockchainInfo();
+            updateSavedBlockchains();
+            showMessage('New blockchain created. Previous blockchain saved.', 'success');
+        }
+
+        function saveCurrentBlockchain() {
+            const savedBlockchains = JSON.parse(localStorage.getItem('savedBlockchains')) || [];
+            savedBlockchains.push(blockchain.chain);
+            localStorage.setItem('savedBlockchains', JSON.stringify(savedBlockchains));
+            updateSavedBlockchains();
+            showMessage('Current blockchain saved.', 'success');
+        }
+
+        function clearBlockchain() {
+            if (confirm('Are you sure you want to clear the current blockchain? This action cannot be undone.')) {
+                blockchain.chain = [blockchain.createGenesisBlock()];
+                localStorage.setItem('blockchain', JSON.stringify(blockchain.chain));
+                updateVoteResults();
+                updateBlockchainInfo();
+                showMessage('Blockchain cleared.', 'success');
+            }
+        }
+
+        function updateSavedBlockchains() {
+            const savedBlockchains = JSON.parse(localStorage.getItem('savedBlockchains')) || [];
+            savedBlockchainsList.innerHTML = '';
+            savedBlockchains.forEach((chain, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>Saved Blockchain ${index + 1} (${chain.length} blocks)</span>
+                    <div class="saved-blockchain-actions">
+                        <button class="button" onclick="editSavedBlockchain(${index})">Edit</button>
+                        <button class="button danger" onclick="deleteSavedBlockchain(${index})">Delete</button>
+                    </div>
+                `;
+                savedBlockchainsList.appendChild(li);
+            });
+        }
+
+        function editSavedBlockchain(index) {
+            const savedBlockchains = JSON.parse(localStorage.getItem('savedBlockchains')) || [];
+            if (confirm(`Are you sure you want to load Saved Blockchain ${index + 1}? This will replace the current blockchain.`)) {
+                blockchain.chain = savedBlockchains[index];
+                localStorage.setItem('blockchain', JSON.stringify(blockchain.chain));
+                updateVoteResults();
+                updateBlockchainInfo();
+                showMessage(`Loaded Saved Blockchain ${index + 1}`, 'success');
+            }
+        }
+
+        function deleteSavedBlockchain(index) {
+            const savedBlockchains = JSON.parse(localStorage.getItem('savedBlockchains')) || [];
+            if (confirm(`Are you sure you want to delete Saved Blockchain ${index + 1}? This action cannot be undone.`)) {
+                savedBlockchains.splice(index, 1);
+                localStorage.setItem('savedBlockchains', JSON.stringify(savedBlockchains));
+                updateSavedBlockchains();
+                showMessage(`Deleted Saved Blockchain ${index + 1}`, 'success');
+            }
+        }
+
+        newBlockchainBtn.addEventListener('click', createNewBlockchain);
+        saveBlockchainBtn.addEventListener('click', saveCurrentBlockchain);
+        clearBlockchainBtn.addEventListener('click', clearBlockchain);
+
+        updateVoteResults();
+        updateBlockchainInfo();
+        updateSavedBlockchains();
+    </script>
+</body>
+</html>
